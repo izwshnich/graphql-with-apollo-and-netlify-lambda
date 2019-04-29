@@ -1,24 +1,24 @@
 import { ApolloServer, gql } from 'apollo-server-lambda'
-
-// dummy data
-import articles from './articles.json'
+import fetch from 'node-fetch'
 
 const typeDefs = gql`
-  type Article {
-    body: String
-    id: Int
-    image: String
-    title: String
-  }
-
   type Query {
-    articles: [Article]
+    akita: [String]
   }
 `
 
 const resolvers = {
   Query: {
-    articles: () => articles,
+    akita: async () => {
+      try {
+        const res = await fetch(`https://dog.ceo/api/breed/Akita/images`)
+        const { message } = await res.json()
+
+        return message
+      } catch (err) {
+        throw new Error(err)
+      }
+    },
   },
 }
 

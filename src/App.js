@@ -1,6 +1,7 @@
 import React from 'react'
 import ApolloClient, { gql } from 'apollo-boost'
 import { ApolloProvider, Query } from "react-apollo"
+import Dogs from './components/Dogs'
 
 const client = new ApolloClient({
   uri: "/.netlify/functions/graphql"
@@ -11,19 +12,11 @@ const App = () => (
     <Query
       query={gql`
         {
-          articles {
-            title
-          }
+          akita
         }
       `}
     >
-      {({ data }) => data.articles ? (
-          <ul>
-            {data.articles.map(article => (
-              <li key={article.title}>{article.title}</li>
-            ))}
-          </ul>
-        ) : null
+      {props => <Dogs {...props} />
       }
     </Query>
   </ApolloProvider>
